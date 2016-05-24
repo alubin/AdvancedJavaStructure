@@ -1,5 +1,6 @@
 package basicgraph;
 
+import java.util.Comparator;
 import java.util.HashMap;
 import java.util.LinkedList;
 import java.util.List;
@@ -120,6 +121,21 @@ public abstract class Graph {
 	public List<Integer> degreeSequence() {
 		// XXX: Implement in part 1 of week 1
 		List<Integer> resultList = new LinkedList<Integer>();
+		
+		//Iterate through the number of vertices and get the neighbors of each vertex.
+		for(int i = 0; i < getNumVertices(); i++)
+		{
+			int degree = getNeighbors(i).size() + getInNeighbors(i).size();
+			resultList.add(degree);
+		}
+		resultList.sort(new Comparator<Integer>() {
+
+			@Override
+			public int compare(Integer o1, Integer o2) {
+				return o2 - o1;
+			}
+		});
+
 		return resultList;
 	}
 	
