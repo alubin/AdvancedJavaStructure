@@ -5,7 +5,8 @@ import java.util.ArrayList;
 import java.util.List;
 import java.util.Locale;
 import java.util.Scanner;
-import geography.*;
+
+import geography.GeographicPoint;
 
 public class CorrectAnswer {
     public int vertices;
