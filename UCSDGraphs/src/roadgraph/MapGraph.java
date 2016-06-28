@@ -8,7 +8,10 @@
 package roadgraph;
 
 
+import java.util.ArrayList;
+import java.util.HashMap;
 import java.util.List;
+import java.util.Map;
 import java.util.Set;
 import java.util.function.Consumer;
 
@@ -24,6 +27,7 @@ import util.GraphLoader;
  */
 public class MapGraph {
 	//TODO: Add your member variables here in WEEK 2
+	private Map<GeographicPoint,ArrayList<GeographicPoint>> mapGrpList;
 	
 	
 	/** 
@@ -32,6 +36,7 @@ public class MapGraph {
 	public MapGraph()
 	{
 		// TODO: Implement in this constructor in WEEK 2
+		mapGrpList = new HashMap<GeographicPoint, ArrayList<GeographicPoint>>();
 	}
 	
 	/**
@@ -41,7 +46,8 @@ public class MapGraph {
 	public int getNumVertices()
 	{
 		//TODO: Implement this method in WEEK 2
-		return 0;
+		int size = mapGrpList.size();
+		return size;
 	}
 	
 	/**
@@ -51,7 +57,8 @@ public class MapGraph {
 	public Set<GeographicPoint> getVertices()
 	{
 		//TODO: Implement this method in WEEK 2
-		return null;
+		Set<GeographicPoint> vertices = mapGrpList.keySet();
+		return vertices;
 	}
 	
 	/**
@@ -61,7 +68,8 @@ public class MapGraph {
 	public int getNumEdges()
 	{
 		//TODO: Implement this method in WEEK 2
-		return 0;
+		int edges = mapGrpList.values().size();
+		return edges;
 	}
 
 	
@@ -76,6 +84,7 @@ public class MapGraph {
 	public boolean addVertex(GeographicPoint location)
 	{
 		// TODO: Implement this method in WEEK 2
+		
 		return false;
 	}
 	
