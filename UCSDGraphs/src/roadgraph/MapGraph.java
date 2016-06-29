@@ -27,6 +27,7 @@ import util.GraphLoader;
  */
 public class MapGraph {
 	//TODO: Add your member variables here in WEEK 2
+	//This 
 	private Map<GeographicPoint,ArrayList<GeographicPoint>> mapGrpList;
 
 
@@ -89,7 +90,7 @@ public class MapGraph {
 		{
 			if(!mapGrpList.containsKey(location))
 			{
-				mapGrpList.put(location, null);
+				mapGrpList.put(location, new ArrayList<GeographicPoint>());
 				result = true;
 			}
 		}
@@ -120,10 +121,17 @@ public class MapGraph {
 		{
 			throw new IllegalArgumentException();
 		}
-		if(mapGrpList.containsKey(from) || mapGrpList.containsKey(to))
+		if(!mapGrpList.containsKey(from) || !mapGrpList.containsKey(to))
 		{
 			throw new IllegalArgumentException();
 		}
+		
+		//Adds to the list of neighbors that from now knows about.
+		ArrayList <GeographicPoint> values = mapGrpList.get(from);
+		//Adds Value to the list of neighbors for from. Since this is a directed graph, only one direction is needed.
+		values.add(to);
+		//Put the new values back into the Adjancey List for the graph.
+		mapGrpList.put(from, values);
 
 
 	}
