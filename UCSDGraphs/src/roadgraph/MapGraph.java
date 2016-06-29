@@ -28,8 +28,8 @@ import util.GraphLoader;
 public class MapGraph {
 	//TODO: Add your member variables here in WEEK 2
 	private Map<GeographicPoint,ArrayList<GeographicPoint>> mapGrpList;
-	
-	
+
+
 	/** 
 	 * Create a new empty MapGraph 
 	 */
@@ -38,7 +38,7 @@ public class MapGraph {
 		// TODO: Implement in this constructor in WEEK 2
 		mapGrpList = new HashMap<GeographicPoint, ArrayList<GeographicPoint>>();
 	}
-	
+
 	/**
 	 * Get the number of vertices (road intersections) in the graph
 	 * @return The number of vertices in the graph.
@@ -49,7 +49,7 @@ public class MapGraph {
 		int size = mapGrpList.size();
 		return size;
 	}
-	
+
 	/**
 	 * Return the intersections, which are the vertices in this graph.
 	 * @return The vertices in this graph as GeographicPoints
@@ -60,7 +60,7 @@ public class MapGraph {
 		Set<GeographicPoint> vertices = mapGrpList.keySet();
 		return vertices;
 	}
-	
+
 	/**
 	 * Get the number of road segments in the graph
 	 * @return The number of edges in the graph.
@@ -72,8 +72,8 @@ public class MapGraph {
 		return edges;
 	}
 
-	
-	
+
+
 	/** Add a node corresponding to an intersection at a Geographic Point
 	 * If the location is already in the graph or null, this method does 
 	 * not change the graph.
@@ -84,10 +84,18 @@ public class MapGraph {
 	public boolean addVertex(GeographicPoint location)
 	{
 		// TODO: Implement this method in WEEK 2
-		
-		return false;
+		boolean result = false;
+		if(location != null)
+		{
+			if(!mapGrpList.containsKey(location))
+			{
+				mapGrpList.put(location, null);
+				result = true;
+			}
+		}
+		return result;
 	}
-	
+
 	/**
 	 * Adds a directed edge to the graph from pt1 to pt2.  
 	 * Precondition: Both GeographicPoints have already been added to the graph
@@ -104,9 +112,22 @@ public class MapGraph {
 			String roadType, double length) throws IllegalArgumentException {
 
 		//TODO: Implement this method in WEEK 2
-		
+		if(from.distance(to) < 0)
+		{
+			throw new IllegalArgumentException();
+		}
+		if(from == null || to == null || roadName == null || roadType == null)
+		{
+			throw new IllegalArgumentException();
+		}
+		if(mapGrpList.containsKey(from) || mapGrpList.containsKey(to))
+		{
+			throw new IllegalArgumentException();
+		}
+
+
 	}
-	
+
 
 	/** Find the path from start to goal using breadth first search
 	 * 
@@ -117,10 +138,10 @@ public class MapGraph {
 	 */
 	public List<GeographicPoint> bfs(GeographicPoint start, GeographicPoint goal) {
 		// Dummy variable for calling the search algorithms
-        Consumer<GeographicPoint> temp = (x) -> {};
-        return bfs(start, goal, temp);
+		Consumer<GeographicPoint> temp = (x) -> {};
+		return bfs(start, goal, temp);
 	}
-	
+
 	/** Find the path from start to goal using breadth first search
 	 * 
 	 * @param start The starting location
@@ -130,16 +151,17 @@ public class MapGraph {
 	 *   path from start to goal (including both start and goal).
 	 */
 	public List<GeographicPoint> bfs(GeographicPoint start, 
-			 					     GeographicPoint goal, Consumer<GeographicPoint> nodeSearched)
+			GeographicPoint goal, Consumer<GeographicPoint> nodeSearched)
 	{
 		// TODO: Implement this method in WEEK 2
+
 		
 		// Hook for visualization.  See writeup.
 		//nodeSearched.accept(next.getLocation());
 
 		return null;
 	}
-	
+
 
 	/** Find the path from start to goal using Dijkstra's algorithm
 	 * 
@@ -151,10 +173,10 @@ public class MapGraph {
 	public List<GeographicPoint> dijkstra(GeographicPoint start, GeographicPoint goal) {
 		// Dummy variable for calling the search algorithms
 		// You do not need to change this method.
-        Consumer<GeographicPoint> temp = (x) -> {};
-        return dijkstra(start, goal, temp);
+		Consumer<GeographicPoint> temp = (x) -> {};
+		return dijkstra(start, goal, temp);
 	}
-	
+
 	/** Find the path from start to goal using Dijkstra's algorithm
 	 * 
 	 * @param start The starting location
@@ -164,13 +186,13 @@ public class MapGraph {
 	 *   start to goal (including both start and goal).
 	 */
 	public List<GeographicPoint> dijkstra(GeographicPoint start, 
-										  GeographicPoint goal, Consumer<GeographicPoint> nodeSearched)
+			GeographicPoint goal, Consumer<GeographicPoint> nodeSearched)
 	{
 		// TODO: Implement this method in WEEK 3
 
 		// Hook for visualization.  See writeup.
 		//nodeSearched.accept(next.getLocation());
-		
+
 		return null;
 	}
 
@@ -183,10 +205,10 @@ public class MapGraph {
 	 */
 	public List<GeographicPoint> aStarSearch(GeographicPoint start, GeographicPoint goal) {
 		// Dummy variable for calling the search algorithms
-        Consumer<GeographicPoint> temp = (x) -> {};
-        return aStarSearch(start, goal, temp);
+		Consumer<GeographicPoint> temp = (x) -> {};
+		return aStarSearch(start, goal, temp);
 	}
-	
+
 	/** Find the path from start to goal using A-Star search
 	 * 
 	 * @param start The starting location
@@ -196,18 +218,18 @@ public class MapGraph {
 	 *   start to goal (including both start and goal).
 	 */
 	public List<GeographicPoint> aStarSearch(GeographicPoint start, 
-											 GeographicPoint goal, Consumer<GeographicPoint> nodeSearched)
+			GeographicPoint goal, Consumer<GeographicPoint> nodeSearched)
 	{
 		// TODO: Implement this method in WEEK 3
-		
+
 		// Hook for visualization.  See writeup.
 		//nodeSearched.accept(next.getLocation());
-		
+
 		return null;
 	}
 
-	
-	
+
+
 	public static void main(String[] args)
 	{
 		System.out.print("Making a new map...");
@@ -215,9 +237,9 @@ public class MapGraph {
 		System.out.print("DONE. \nLoading the map...");
 		GraphLoader.loadRoadMap("data/testdata/simpletest.map", theMap);
 		System.out.println("DONE.");
-		
+
 		// You can use this method for testing.  
-		
+
 		/* Use this code in Week 3 End of Week Quiz
 		MapGraph theMap = new MapGraph();
 		System.out.print("DONE. \nLoading the map...");
@@ -226,13 +248,13 @@ public class MapGraph {
 
 		GeographicPoint start = new GeographicPoint(32.8648772, -117.2254046);
 		GeographicPoint end = new GeographicPoint(32.8660691, -117.217393);
-		
-		
+
+
 		List<GeographicPoint> route = theMap.dijkstra(start,end);
 		List<GeographicPoint> route2 = theMap.aStarSearch(start,end);
 
-		*/
-		
+		 */
+
 	}
-	
+
 }
