@@ -8,10 +8,13 @@
 package roadgraph;
 
 
+import java.awt.PrintGraphics;
 import java.util.ArrayList;
 import java.util.HashMap;
+import java.util.LinkedList;
 import java.util.List;
 import java.util.Map;
+import java.util.Queue;
 import java.util.Set;
 import java.util.function.Consumer;
 
@@ -94,6 +97,7 @@ public class MapGraph {
 				result = true;
 			}
 		}
+		printGraph();
 		return result;
 	}
 
@@ -132,6 +136,8 @@ public class MapGraph {
 		values.add(to);
 		//Put the new values back into the Adjancey List for the graph.
 		mapGrpList.put(from, values);
+		
+		printGraph();
 
 
 	}
@@ -162,7 +168,12 @@ public class MapGraph {
 			GeographicPoint goal, Consumer<GeographicPoint> nodeSearched)
 	{
 		// TODO: Implement this method in WEEK 2
-
+		//A queue to hold the 
+		Queue myQueue = new LinkedList();
+		
+		//Add the root to the queue, which is the starting point.
+		myQueue.add(start);
+		
 		
 		// Hook for visualization.  See writeup.
 		//nodeSearched.accept(next.getLocation());
@@ -235,11 +246,18 @@ public class MapGraph {
 
 		return null;
 	}
+	
+	/** This prints out a representation of the graph for testing. **/
+	private void printGraph()
+	{
+		mapGrpList.toString();
+	}
 
 
 
 	public static void main(String[] args)
 	{
+//		printGraph();
 		System.out.print("Making a new map...");
 		MapGraph theMap = new MapGraph();
 		System.out.print("DONE. \nLoading the map...");
