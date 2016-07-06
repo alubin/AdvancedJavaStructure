@@ -14,6 +14,7 @@ import java.util.HashMap;
 import java.util.LinkedList;
 import java.util.List;
 import java.util.Map;
+import java.util.Map.Entry;
 import java.util.Queue;
 import java.util.Set;
 import java.util.function.Consumer;
@@ -64,6 +65,7 @@ public class MapGraph {
 		Set<GeographicPoint> vertices = mapGrpList.keySet();
 		return vertices;
 	}
+	
 
 	/**
 	 * Get the number of road segments in the graph
@@ -72,7 +74,11 @@ public class MapGraph {
 	public int getNumEdges()
 	{
 		//TODO: Implement this method in WEEK 2
-		int edges = mapGrpList.values().size();
+		int edges = 0; 
+		for(Entry<GeographicPoint, ArrayList<GeographicPoint>> entry  : mapGrpList.entrySet())
+		{
+			edges += entry.getValue().size();
+		}
 		return edges;
 	}
 
@@ -93,11 +99,13 @@ public class MapGraph {
 		{
 			if(!mapGrpList.containsKey(location))
 			{
+//				System.out.println("Location from add = " + location);
 				mapGrpList.put(location, new ArrayList<GeographicPoint>());
 				result = true;
 			}
 		}
-		printGraph();
+//		printGraph();
+//		System.out.println("Map List = " + mapGrpList.);
 		return result;
 	}
 
@@ -137,7 +145,8 @@ public class MapGraph {
 		//Put the new values back into the Adjancey List for the graph.
 		mapGrpList.put(from, values);
 		
-		printGraph();
+//		printGraph();
+//		System.out.println("Map Stuff " + mapGrpList.toString());
 
 
 	}
@@ -167,18 +176,31 @@ public class MapGraph {
 	public List<GeographicPoint> bfs(GeographicPoint start, 
 			GeographicPoint goal, Consumer<GeographicPoint> nodeSearched)
 	{
-		// TODO: Implement this method in WEEK 2
-		//A queue to hold the 
-		Queue myQueue = new LinkedList();
+		List<GeographicPoint> returnList = new ArrayList<GeographicPoint>();
+		ArrayList<GeographicPoint> list = mapGrpList.get(start);
 		
-		//Add the root to the queue, which is the starting point.
-		myQueue.add(start);
+		//If the first object is the goal, our search is done. 
+		if(start.equals(goal))
+		{
+			returnList.add(start);
+			return returnList;
+		}
 		
+		//Else, we need to check the list and all objects in the list
+		for(GeographicPoint point : list)
+		{
+			
+			if(point.equals(goal))
+			{
+				returnList.add(point);
+			}
+			
+		}
 		
 		// Hook for visualization.  See writeup.
 		//nodeSearched.accept(next.getLocation());
 
-		return null;
+		return returnList;
 	}
 
 
@@ -250,7 +272,9 @@ public class MapGraph {
 	/** This prints out a representation of the graph for testing. **/
 	private void printGraph()
 	{
-		mapGrpList.toString();
+		System.out.println("Vertices =" + getVertices());
+//		System.out.println("Edges =" + getEdges());
+		
 	}
 
 
