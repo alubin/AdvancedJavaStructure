@@ -65,7 +65,7 @@ public class MapGraph {
 		Set<GeographicPoint> vertices = mapGrpList.keySet();
 		return vertices;
 	}
-	
+
 
 	/**
 	 * Get the number of road segments in the graph
@@ -99,13 +99,13 @@ public class MapGraph {
 		{
 			if(!mapGrpList.containsKey(location))
 			{
-//				System.out.println("Location from add = " + location);
+				//				System.out.println("Location from add = " + location);
 				mapGrpList.put(location, new ArrayList<GeographicPoint>());
 				result = true;
 			}
 		}
-//		printGraph();
-//		System.out.println("Map List = " + mapGrpList.);
+		//		printGraph();
+		//		System.out.println("Map List = " + mapGrpList.);
 		return result;
 	}
 
@@ -137,16 +137,16 @@ public class MapGraph {
 		{
 			throw new IllegalArgumentException();
 		}
-		
+
 		//Adds to the list of neighbors that from now knows about.
 		ArrayList <GeographicPoint> values = mapGrpList.get(from);
 		//Adds Value to the list of neighbors for from. Since this is a directed graph, only one direction is needed.
 		values.add(to);
 		//Put the new values back into the Adjancey List for the graph.
 		mapGrpList.put(from, values);
-		
-//		printGraph();
-//		System.out.println("Map Stuff " + mapGrpList.toString());
+
+		//		printGraph();
+		//		System.out.println("Map Stuff " + mapGrpList.toString());
 
 
 	}
@@ -176,27 +176,34 @@ public class MapGraph {
 	public List<GeographicPoint> bfs(GeographicPoint start, 
 			GeographicPoint goal, Consumer<GeographicPoint> nodeSearched)
 	{
+		List<GeographicPoint> nodeQueue = new LinkedList<GeographicPoint>();
 		List<GeographicPoint> returnList = new ArrayList<GeographicPoint>();
-		ArrayList<GeographicPoint> list = mapGrpList.get(start);
-		
-		//If the first object is the goal, our search is done. 
-		if(start.equals(goal))
+		List<GeographicPoint> visitedNode = new ArrayList<GeographicPoint>();
+
+
+		nodeQueue.add(start);
+		visitedNode.add(start);
+		while(!nodeQueue.isEmpty())
 		{
-			returnList.add(start);
-			return returnList;
-		}
-		
-		//Else, we need to check the list and all objects in the list
-		for(GeographicPoint point : list)
-		{
-			
-			if(point.equals(goal))
+//			System.out.println("Node Queue = "+ nodeQueue );
+			GeographicPoint node = (GeographicPoint) nodeQueue.remove(0);
+			if(node.equals(goal))
 			{
-				returnList.add(point);
+				System.out.println("Goal Found = " + node.toString());
+//				System.out.println("Node Queue = " + nodeQueue);
 			}
-			
+			for(GeographicPoint point: mapGrpList.get(node))
+			{
+				if(point != null && !visitedNode.contains(point))
+				{
+					visitedNode.add(point);
+					nodeQueue.add(point);
+				}
+			}
 		}
-		
+
+		System.out.println("Return List = " + returnList);
+
 		// Hook for visualization.  See writeup.
 		//nodeSearched.accept(next.getLocation());
 
@@ -268,20 +275,20 @@ public class MapGraph {
 
 		return null;
 	}
-	
+
 	/** This prints out a representation of the graph for testing. **/
 	private void printGraph()
 	{
 		System.out.println("Vertices =" + getVertices());
-//		System.out.println("Edges =" + getEdges());
-		
+		//		System.out.println("Edges =" + getEdges());
+
 	}
 
 
 
 	public static void main(String[] args)
 	{
-//		printGraph();
+		//		printGraph();
 		System.out.print("Making a new map...");
 		MapGraph theMap = new MapGraph();
 		System.out.print("DONE. \nLoading the map...");
