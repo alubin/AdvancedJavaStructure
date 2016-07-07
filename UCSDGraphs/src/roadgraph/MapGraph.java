@@ -186,11 +186,12 @@ public class MapGraph {
 		while(!nodeQueue.isEmpty())
 		{
 //			System.out.println("Node Queue = "+ nodeQueue );
+			//Get the first element of the queue to check for its children
 			GeographicPoint node = (GeographicPoint) nodeQueue.remove(0);
+			//If the node is the goal is found, do something.
 			if(node.equals(goal))
 			{
 				System.out.println("Goal Found = " + node.toString());
-//				System.out.println("Node Queue = " + nodeQueue);
 			}
 			for(GeographicPoint point: mapGrpList.get(node))
 			{
@@ -202,10 +203,11 @@ public class MapGraph {
 			}
 		}
 
+		returnList.addAll(visitedNode);
 		System.out.println("Return List = " + returnList);
 
 		// Hook for visualization.  See writeup.
-		//nodeSearched.accept(next.getLocation());
+//		nodeSearched.accept(next.getLocation());
 
 		return returnList;
 	}
