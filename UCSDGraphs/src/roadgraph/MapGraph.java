@@ -8,14 +8,12 @@
 package roadgraph;
 
 
-import java.awt.PrintGraphics;
 import java.util.ArrayList;
 import java.util.HashMap;
 import java.util.LinkedList;
 import java.util.List;
 import java.util.Map;
 import java.util.Map.Entry;
-import java.util.Queue;
 import java.util.Set;
 import java.util.function.Consumer;
 
@@ -99,13 +97,10 @@ public class MapGraph {
 		{
 			if(!mapGrpList.containsKey(location))
 			{
-				//				System.out.println("Location from add = " + location);
 				mapGrpList.put(location, new ArrayList<GeographicPoint>());
 				result = true;
 			}
 		}
-		//		printGraph();
-		//		System.out.println("Map List = " + mapGrpList.);
 		return result;
 	}
 
@@ -180,12 +175,12 @@ public class MapGraph {
 		List<GeographicPoint> returnList = new ArrayList<GeographicPoint>();
 		List<GeographicPoint> visitedNode = new ArrayList<GeographicPoint>();
 
-
 		nodeQueue.add(start);
 		visitedNode.add(start);
+		returnList.add(start);
+		
 		while(!nodeQueue.isEmpty())
 		{
-//			System.out.println("Node Queue = "+ nodeQueue );
 			//Get the first element of the queue to check for its children
 			GeographicPoint node = (GeographicPoint) nodeQueue.remove(0);
 			//If the node is the goal is found, do something.
@@ -195,19 +190,26 @@ public class MapGraph {
 			}
 			for(GeographicPoint point: mapGrpList.get(node))
 			{
-				if(point != null && !visitedNode.contains(point))
+				if(point != null)
 				{
-					visitedNode.add(point);
-					nodeQueue.add(point);
+					returnList.add(point);
+
+					if(!visitedNode.contains(point))
+					{
+						visitedNode.add(point);
+						nodeQueue.add(point);
+					}
+					else{
+					}
 				}
 			}
-		}
 
-		returnList.addAll(visitedNode);
+
+		}
 		System.out.println("Return List = " + returnList);
 
 		// Hook for visualization.  See writeup.
-//		nodeSearched.accept(next.getLocation());
+		//		nodeSearched.accept(next.getLocation());
 
 		return returnList;
 	}
@@ -277,16 +279,6 @@ public class MapGraph {
 
 		return null;
 	}
-
-	/** This prints out a representation of the graph for testing. **/
-	private void printGraph()
-	{
-		System.out.println("Vertices =" + getVertices());
-		//		System.out.println("Edges =" + getEdges());
-
-	}
-
-
 
 	public static void main(String[] args)
 	{
