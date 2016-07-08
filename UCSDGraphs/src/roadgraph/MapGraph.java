@@ -175,10 +175,10 @@ public class MapGraph {
 		List<GeographicPoint> returnList = new ArrayList<GeographicPoint>();
 		List<GeographicPoint> visitedNode = new ArrayList<GeographicPoint>();
 		Map<GeographicPoint, GeographicPoint> parentMap = new HashMap<GeographicPoint,GeographicPoint>();
-		
+
 		nodeQueue.add(start);
 		visitedNode.add(start);
-		
+
 		while(!nodeQueue.isEmpty())
 		{
 			//Get the first element of the queue to check for its children
@@ -200,7 +200,8 @@ public class MapGraph {
 				if(point != null)
 				{
 					parentMap.put(point, node);
-
+//					System.out.println(parentMap);
+					
 					if(!visitedNode.contains(point))
 					{
 						visitedNode.add(point);
@@ -213,7 +214,7 @@ public class MapGraph {
 
 
 		}
-		
+
 		System.out.println("Return List = " + returnList);
 
 		// Hook for visualization.  See writeup.
@@ -221,26 +222,38 @@ public class MapGraph {
 
 		return returnList;
 	}
-	
+
+
+	/**
+	 * This methods reverse the order of parents from the end to the beginning.
+	 * @param parent
+	 * @param start
+	 * @param goal
+	 * @return
+	 */
 	private List<GeographicPoint> reverseTravel(Map<GeographicPoint, GeographicPoint> parent, GeographicPoint start, GeographicPoint goal)
 	{
 		List<GeographicPoint> outputList = new ArrayList< GeographicPoint>();
 		GeographicPoint index = parent.get(goal);
-		
+
+		System.out.println("Start = " + start);
+		System.out.println("Goal = " + goal);
+		//Find every parent, until we hit the top.
 		while(index != start)
 		{
 			outputList.add(0, index);
 			index = parent.get(index);
+//			System.out.println("Output List = " + outputList);
 		}
-		
+
 		//Add Start to the beginning
 		outputList.add(0,start);
-		
+
 		//Adding the goal to the end of the list
 		outputList.add(goal);
-		
+
 		return outputList;
-		
+
 	}
 
 
