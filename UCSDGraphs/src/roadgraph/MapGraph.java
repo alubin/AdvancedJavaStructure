@@ -193,7 +193,7 @@ public class MapGraph {
 			else
 			{
 				//Goal was not found.
-//				returnList = null;
+				returnList = null;
 			}
 			for(GeographicPoint point: mapGrpList.get(node))
 			{
@@ -224,10 +224,22 @@ public class MapGraph {
 	
 	private List<GeographicPoint> reverseTravel(Map<GeographicPoint, GeographicPoint> parent, GeographicPoint start, GeographicPoint goal)
 	{
-		List<GeographicPoint> outputMap = new ArrayList< GeographicPoint>();
+		List<GeographicPoint> outputList = new ArrayList< GeographicPoint>();
+		GeographicPoint index = parent.get(goal);
 		
-		outputMap.add(0, parent.get(goal));
-		return outputMap;
+		while(index != start)
+		{
+			outputList.add(0, index);
+			index = parent.get(index);
+		}
+		
+		//Add Start to the beginning
+		outputList.add(0,start);
+		
+		//Adding the goal to the end of the list
+		outputList.add(goal);
+		
+		return outputList;
 		
 	}
 
