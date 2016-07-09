@@ -172,12 +172,11 @@ public class MapGraph {
 			GeographicPoint goal, Consumer<GeographicPoint> nodeSearched)
 	{
 		List<GeographicPoint> nodeQueue = new LinkedList<GeographicPoint>();
-		List<GeographicPoint> returnList = new ArrayList<GeographicPoint>();
+		List<GeographicPoint> returnList = null;
 		List<GeographicPoint> visitedNode = new ArrayList<GeographicPoint>();
 		Map<GeographicPoint, GeographicPoint> parentMap = new HashMap<GeographicPoint,GeographicPoint>();
 
 		nodeQueue.add(start);
-		visitedNode.add(start);
 
 		while(!nodeQueue.isEmpty())
 		{
@@ -186,26 +185,20 @@ public class MapGraph {
 			//If the node is the goal is found, do something.
 			if(node.equals(goal))
 			{
-				System.out.println("Goal Found = " + node.toString());
 				//Populate Return List
 				returnList = reverseTravel(parentMap, start, goal);
 			}
-			else
-			{
-				//Goal was not found.
-				returnList = null;
-			}
+
 			for(GeographicPoint point: mapGrpList.get(node))
 			{
 				if(point != null)
 				{
-					parentMap.put(point, node);
-//					System.out.println(parentMap);
 					
 					if(!visitedNode.contains(point))
 					{
 						visitedNode.add(point);
 						nodeQueue.add(point);
+						parentMap.put(point, node);
 					}
 					else{
 					}
@@ -215,7 +208,6 @@ public class MapGraph {
 
 		}
 
-		System.out.println("Return List = " + returnList);
 
 		// Hook for visualization.  See writeup.
 		//		nodeSearched.accept(next.getLocation());
@@ -236,14 +228,11 @@ public class MapGraph {
 		List<GeographicPoint> outputList = new ArrayList< GeographicPoint>();
 		GeographicPoint index = parent.get(goal);
 
-		System.out.println("Start = " + start);
-		System.out.println("Goal = " + goal);
 		//Find every parent, until we hit the top.
 		while(index != start)
 		{
 			outputList.add(0, index);
 			index = parent.get(index);
-//			System.out.println("Output List = " + outputList);
 		}
 
 		//Add Start to the beginning
