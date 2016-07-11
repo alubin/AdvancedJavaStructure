@@ -182,6 +182,8 @@ public class MapGraph {
 		{
 			//Get the first element of the queue to check for its children
 			GeographicPoint node = (GeographicPoint) nodeQueue.remove(0);
+			// Hook for visualization.
+			nodeSearched.accept(node);
 			//If the node is the goal is found, do something.
 			if(node.equals(goal))
 			{
@@ -196,21 +198,18 @@ public class MapGraph {
 					
 					if(!visitedNode.contains(point))
 					{
+						
 						visitedNode.add(point);
 						nodeQueue.add(point);
 						parentMap.put(point, node);
-					}
-					else{
+						
+						
 					}
 				}
 			}
 
 
 		}
-
-
-		// Hook for visualization.  See writeup.
-		//		nodeSearched.accept(next.getLocation());
 
 		return returnList;
 	}
