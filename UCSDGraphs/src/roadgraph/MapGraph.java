@@ -188,7 +188,7 @@ public class MapGraph {
 			if(node.equals(goal))
 			{
 				//Populate Return List
-				returnList = reverseTravel(parentMap, start, goal);
+				returnList = backTrack(parentMap, start, goal);
 			}
 
 			for(GeographicPoint point: mapGrpList.get(node))
@@ -222,7 +222,7 @@ public class MapGraph {
 	 * @param goal
 	 * @return
 	 */
-	private List<GeographicPoint> reverseTravel(Map<GeographicPoint, GeographicPoint> parent, GeographicPoint start, GeographicPoint goal)
+	private List<GeographicPoint> backTrack(Map<GeographicPoint, GeographicPoint> parent, GeographicPoint start, GeographicPoint goal)
 	{
 		List<GeographicPoint> outputList = new ArrayList< GeographicPoint>();
 		GeographicPoint index = parent.get(goal);
