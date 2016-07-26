@@ -9,11 +9,13 @@ package roadgraph;
 
 
 import java.util.ArrayList;
+import java.util.Comparator;
 import java.util.HashMap;
 import java.util.LinkedList;
 import java.util.List;
 import java.util.Map;
 import java.util.Map.Entry;
+import java.util.PriorityQueue;
 import java.util.Set;
 import java.util.function.Consumer;
 
@@ -182,8 +184,7 @@ public class MapGraph {
 		{
 			//Get the first element of the queue to check for its children
 			GeographicPoint node = (GeographicPoint) nodeQueue.remove(0);
-			// Hook for visualization.
-			nodeSearched.accept(node);
+
 			//If the node is the goal is found, do something.
 			if(node.equals(goal))
 			{
@@ -195,15 +196,16 @@ public class MapGraph {
 			{
 				if(point != null)
 				{
-					
+
 					if(!visitedNode.contains(point))
 					{
-						
+						// Hook for visualization.
+						nodeSearched.accept(point);
 						visitedNode.add(point);
 						nodeQueue.add(point);
 						parentMap.put(point, node);
-						
-						
+
+
 					}
 				}
 			}
@@ -232,6 +234,7 @@ public class MapGraph {
 		{
 			outputList.add(0, index);
 			index = parent.get(index);
+			System.out.println("Output List = " + outputList);
 		}
 
 		//Add Start to the beginning
@@ -271,11 +274,61 @@ public class MapGraph {
 			GeographicPoint goal, Consumer<GeographicPoint> nodeSearched)
 	{
 		// TODO: Implement this method in WEEK 3
+		Comparator<GeographicPoint> pointComparator = new Comparator<GeographicPoint>()
+		{
+
+			@Override
+			public int compare(GeographicPoint o1, GeographicPoint o2) 
+			{
+				return (int) (o1.distance(o2) -  o2.distance(o1));
+			}
+
+		};
+		PriorityQueue<GeographicPoint> pQueue = new PriorityQueue<GeographicPoint>(11, pointComparator);
+		List<GeographicPoint> visitedNode = new LinkedList<GeographicPoint>();
+		List<GeographicPoint> returnList = null;
+		Map<GeographicPoint, GeographicPoint> parentMap = new HashMap<GeographicPoint,GeographicPoint>();
+
+
+
+		pQueue.add(start);
+
+		while(!pQueue.isEmpty())
+		{
+			//Get the first element of the queue to check for its children
+			GeographicPoint node = (GeographicPoint) pQueue.poll();
+
+			//If the node is the goal is found, do something.
+			if(node.equals(goal))
+			{
+				System.out.println("Goal Found!");
+				//Populate Return List
+				returnList = backTrack(parentMap, start, goal);
+			}
+
+			for(GeographicPoint point: mapGrpList.get(node))
+			{
+				if(point != null)
+				{
+
+					if(!visitedNode.contains(point))
+					{
+
+						visitedNode.add(point);
+						pQueue.add(point);
+						parentMap.put(point, node);
+
+
+					}
+				}
+			}
+		}
+
 
 		// Hook for visualization.  See writeup.
 		//nodeSearched.accept(next.getLocation());
 
-		return null;
+		return returnList;
 	}
 
 	/** Find the path from start to goal using A-Star search
