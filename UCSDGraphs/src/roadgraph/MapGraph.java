@@ -290,7 +290,6 @@ public class MapGraph {
 		List<GeographicPoint> visitedNode = new LinkedList<GeographicPoint>();
 		List<GeographicPoint> returnList = null;
 		Map<GeographicPoint, GeographicPoint> parentMap = new HashMap<GeographicPoint,GeographicPoint>();
-		double currDist = 0.0;
 
 
 
