@@ -286,7 +286,7 @@ public class MapGraph {
 			}
 
 		};
-		PriorityQueue<GeographicPoint> pQueue = new PriorityQueue<GeographicPoint>(11, pointComparator);
+		PriorityQueue<GeographicPoint> unVisited = new PriorityQueue<GeographicPoint>(11, pointComparator);
 		List<GeographicPoint> visitedNode = new LinkedList<GeographicPoint>();
 		List<GeographicPoint> returnList = null;
 		Map<GeographicPoint, GeographicPoint> parentMap = new HashMap<GeographicPoint,GeographicPoint>();
@@ -294,19 +294,26 @@ public class MapGraph {
 
 
 
-		pQueue.add(start);
+		unVisited.add(start);
 
-		while(!pQueue.isEmpty())
+		while(!unVisited.isEmpty())
 		{
+			int cost = Integer.MAX_VALUE;
 			//Get the first element of the queue to check for its children
-			GeographicPoint node = (GeographicPoint) pQueue.poll();
+			GeographicPoint node = (GeographicPoint) unVisited.poll();
 
 			//If the node is the goal is found, do something.
-			if(node.equals(goal))
+			if(node.equals(goal) && calculateCost(parentMap, start, goal) < cost)
 			{
 				System.out.println("Goal Found!");
 				//Populate Return List
 				returnList = backTrack(parentMap, start, goal);
+				cost = calculateCost(parentMap, start, goal);
+				System.out.println("Cost = " + cost);
+			}
+			else if(node.equals(goal))
+			{
+				System.out.println("Goal was found, but not the best path.");
 			}
 
 			for(GeographicPoint point: mapGrpList.get(node))
@@ -318,7 +325,7 @@ public class MapGraph {
 					{
 
 						visitedNode.add(point);
-						pQueue.add(point);
+						unVisited.add(point);
 						parentMap.put(point, node);
 
 
@@ -332,6 +339,26 @@ public class MapGraph {
 		//nodeSearched.accept(next.getLocation());
 
 		return returnList;
+	}
+	
+	/**
+	 * Method to calculate the cost of the path
+	 */
+	private final int calculateCost(Map<GeographicPoint, GeographicPoint> parent, GeographicPoint start, GeographicPoint goal)
+	{
+		int cost = 0;
+		GeographicPoint index = parent.get(goal);
+		
+		//Find every parent, until we hit the top.
+		while(index != start)
+		{
+			GeographicPoint prev = index;
+			index = parent.get(index);
+			cost += prev.distance(index);
+		}
+		
+		return cost;
+		
 	}
 
 	/** Find the path from start to goal using A-Star search
