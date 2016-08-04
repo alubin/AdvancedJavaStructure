@@ -290,6 +290,7 @@ public class MapGraph {
 		List<GeographicPoint> visitedNode = new LinkedList<GeographicPoint>();
 		List<GeographicPoint> returnList = null;
 		Map<GeographicPoint, GeographicPoint> parentMap = new HashMap<GeographicPoint,GeographicPoint>();
+		Map<MapEdge, Double> costMap = new HashMap<MapEdge, Double>();
 
 
 
@@ -299,7 +300,7 @@ public class MapGraph {
 		{
 			int cost = Integer.MAX_VALUE;
 			//Get the first element of the queue to check for its children
-			GeographicPoint node = (GeographicPoint) unVisited.poll();
+			GeographicPoint node = (GeographicPoint) unVisited.peek();
 
 			//If the node is the goal is found, do something.
 			if(node.equals(goal) && calculateCost(parentMap, start, goal) < cost)
@@ -323,14 +324,26 @@ public class MapGraph {
 					if(!visitedNode.contains(point))
 					{
 
-						visitedNode.add(point);
-						unVisited.add(point);
+						//Determine the cost of the edges
+						MapEdge edge = new MapEdge(node, point);
+//						visitedNode.add(point);
+//						unVisited.add(point);
 						parentMap.put(point, node);
+						//If map does not contain the key, there the cost was not stored and therefore it is assumed to be infinity
+						if(!costMap.containsKey(edge))
+						{
+							//Calculate cost of the edge and store value.
+							costMap.put(edge, edge.getDistance());
+							System.out.println("Cost of " + edge +" = "  + costMap.values());
+						}
+						
 
 
 					}
 				}
 			}
+			
+			unVisited.remove();
 		}
 
 

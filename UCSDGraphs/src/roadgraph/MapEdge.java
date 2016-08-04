@@ -13,6 +13,10 @@ public class MapEdge {
 		p2 = point2;
 	}
 	
+	/**
+	 * The cost/distance of the vertices near each other.
+	 * @return
+	 */
 	public double getDistance()
 	{
 		return p1.distance(p2);
@@ -26,6 +30,11 @@ public class MapEdge {
 	public GeographicPoint getVertice2()
 	{
 		return p2;
+	}
+	
+	public String toString()
+	{
+		return "Point 1 = " + p1 + " Point 2 = " + p2;
 	}
 
 }
