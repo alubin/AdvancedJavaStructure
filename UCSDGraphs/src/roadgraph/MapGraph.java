@@ -316,6 +316,7 @@ public class MapGraph {
 				System.out.println("Goal was found, but not the best path.");
 			}
 
+			//Check the neighbors of the node.
 			for(GeographicPoint point: mapGrpList.get(node))
 			{
 				if(point != null)
